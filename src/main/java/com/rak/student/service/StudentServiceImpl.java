@@ -97,6 +97,7 @@ public class StudentServiceImpl implements StudentService {
                 Thread.sleep(5000L);
             } catch (InterruptedException e) {
                 // Handle interruption
+
                 Thread.currentThread().interrupt();
             }
             // simulate circuit breaker
