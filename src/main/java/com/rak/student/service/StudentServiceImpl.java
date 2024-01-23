@@ -29,12 +29,23 @@ public class StudentServiceImpl implements StudentService {
     private final SchoolRepository schoolRepository;
     private final StudentMapper studentMapper;
 
+    /**
+     * It retrieves all students from the student repository, maps them to StudentDTO objects using the studentMapper,
+     * and returns a list of StudentDTOs.
+     */
     @Override
     public List<StudentDTO> getAllStudents() {
         List<Student> students = studentRepository.findAll();
         return students.stream().map(studentMapper::toDTO).collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves a student by their ID.
+     *
+     * @param studentId The ID of the student to retrieve.
+     * @return The StudentDTO object representing the student.
+     * @throws ResponseStatusException if the student is not found.
+     */
     @Override
     public StudentDTO getStudentById(Long studentId) {
         return studentRepository.findById(studentId)
@@ -42,6 +53,12 @@ public class StudentServiceImpl implements StudentService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "student not found against studentId" + studentId));
     }
 
+    /**
+     * Creates a new student.
+     *
+     * @param studentDTO The StudentDTO object representing the student to create.
+     * @return The StudentDTO object representing the created student.
+     */
     @Override
     public StudentDTO createStudent(StudentDTO studentDTO) {
         Student student = studentMapper.toEntity(studentDTO);
@@ -51,6 +68,14 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.toDTO(savedStudent);
     }
 
+    /**
+     * Updates an existing student.
+     *
+     * @param studentId         The ID of the student to update.
+     * @param updatedStudentDTO The updated StudentDTO object.
+     * @return The StudentDTO object representing the updated student.
+     * @throws EntityNotFoundException if the student is not found.
+     */
     @Override
     public StudentDTO updateStudent(Long studentId, StudentDTO updatedStudentDTO) {
         Student existingStudent = studentRepository.findById(studentId)
@@ -69,6 +94,12 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.toDTO(updatedStudent);
     }
 
+    /**
+     * Deletes a student by their ID.
+     *
+     * @param studentId The ID of the student to delete.
+     * @throws ResponseStatusException if the student is not found.
+     */
     @Override
     public void deleteStudent(Long studentId) {
         studentRepository.findById(studentId).ifPresentOrElse(x -> {
@@ -78,15 +109,13 @@ public class StudentServiceImpl implements StudentService {
         });
     }
 
-
-    //    @Override
-//    @CircuitBreaker(name = "getStudentApiCircuitBreaker", fallbackMethod = "fallbackStudentInfo")
-//    public StudentDTO getStudentByRollNo(String rollNo) throws InterruptedException {
-//        Thread.sleep(5000000L);
-//        return studentRepository.findFirstByRollNumber(rollNo)
-//                .map(studentMapper::toDTO)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "student not found against rollNo: " + rollNo));
-//    }
+    /**
+     * Retrieves a student by their roll number asynchronously.
+     *
+     * @param rollNo The roll number of the student to retrieve.
+     * @return A CompletableFuture containing the StudentDTO object representing the student.
+     * @throws ResponseStatusException if the student is not found.
+     */
     @Override
     @CircuitBreaker(name = "getStudentApiCircuitBreaker", fallbackMethod = "fallbackStudentInfo")
     @Retry(name = "getStudentApiRetry", fallbackMethod = "fallbackStudentInfo")
@@ -109,12 +138,24 @@ public class StudentServiceImpl implements StudentService {
         });
     }
 
-
+    /**
+     * Retrieves a school by its ID or throws an exception if not found.
+     *
+     * @param schoolId The ID of the school to retrieve.
+     * @return The School object representing the school.
+     * @throws ResponseStatusException if the school is not found.
+     */
     private School getSchoolOrThrowException(Long schoolId) {
         return schoolRepository.findById(schoolId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "School not found with id: " + schoolId));
     }
 
+    /**
+     * Fallback method for the getStudentByRollNo method.
+     *
+     * @param e The exception that triggered the fallback.
+     * @return A CompletableFuture containing null as a fallback value.
+     */
     private CompletableFuture<StudentDTO> fallbackStudentInfo(Exception e) {
         return CompletableFuture.completedFuture(null);
     }

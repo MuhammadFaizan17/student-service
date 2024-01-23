@@ -20,6 +20,10 @@ public class SchoolServiceImpl implements SchoolService {
 
     private final SchoolRepository schoolRepository;
     private final SchoolMapper mapper;
+    /**
+     * Retrieves all schools from the database and converts them to DTOs.
+     * @return List of SchoolDTOs
+     */
 
     @Override
     public List<SchoolDTO> getAllSchools() {
@@ -27,13 +31,24 @@ public class SchoolServiceImpl implements SchoolService {
         return schools.stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public SchoolDTO getSchoolById(Long schoolId) {
-        return schoolRepository.findById(schoolId)
-                .map(mapper::toDTO)
-                .orElse(null);
-    }
-
+    /**
+ * Retrieves a school by its ID.
+ *
+ * @param schoolId The ID of the school to retrieve.
+ * @return The SchoolDTO object representing the retrieved school, or null if not found.
+ */
+@Override
+public SchoolDTO getSchoolById(Long schoolId) {
+    return schoolRepository.findById(schoolId)
+            .map(mapper::toDTO)
+            .orElse(null);
+}
+    /**
+     * Creates a new school with the given details.
+     *
+     * @param schoolDTO The details of the school to be created.
+     * @return The newly created school.
+     */
     @Override
     public SchoolDTO createSchool(SchoolDTO schoolDTO) {
         School school = mapper.toEntity(schoolDTO);
@@ -41,6 +56,11 @@ public class SchoolServiceImpl implements SchoolService {
         return mapper.toDTO(savedSchool);
     }
 
+    /**
+     * Updates a school with the given schoolId using the information from the updatedSchoolDTO.
+     * If the school with the given schoolId does not exist, a ResponseStatusException is thrown.
+     * Returns the updated school as a SchoolDTO object.
+     */
     @Override
     public SchoolDTO updateSchool(Long schoolId, SchoolDTO updatedSchoolDTO) {
         School existingSchool = schoolRepository.findById(schoolId)
@@ -52,14 +72,18 @@ public class SchoolServiceImpl implements SchoolService {
         return mapper.toDTO(updatedSchool);
     }
 
-    @Override
-    public void deleteSchool(Long schoolId) {
-        schoolRepository.findById(schoolId).ifPresentOrElse(x -> {
-            schoolRepository.deleteById(x.getId());
-        }, () -> {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "School not found with id: " + schoolId);
-        });
-
-    }
+ /**
+ * This is an implementation of the deleteSchool method in the SchoolService interface.
+ * It deletes a school with the specified schoolId from the school repository.
+ * If the school is not found, it throws a ResponseStatusException with a BAD_REQUEST status and an error message.
+ */
+@Override
+public void deleteSchool(Long schoolId) {
+    schoolRepository.findById(schoolId).ifPresentOrElse(x -> {
+        schoolRepository.deleteById(x.getId());
+    }, () -> {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "School not found with id: " + schoolId);
+    });
+}
 }
 
