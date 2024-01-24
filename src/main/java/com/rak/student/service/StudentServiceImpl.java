@@ -85,7 +85,6 @@ public class StudentServiceImpl implements StudentService {
         existingStudent.setGrade(updatedStudentDTO.getGrade());
         existingStudent.setMobileNumber(updatedStudentDTO.getMobileNumber());
 
-        // Update school if schoolId is changed
         if (!existingStudent.getSchool().getId().equals(updatedStudentDTO.getSchoolId())) {
             existingStudent.setSchool(getSchoolOrThrowException(updatedStudentDTO.getSchoolId()));
         }
@@ -122,13 +121,13 @@ public class StudentServiceImpl implements StudentService {
     public CompletableFuture<StudentDTO> getStudentByRollNo(String rollNo) {
         return CompletableFuture.supplyAsync(() -> {
             // Simulate some processing time
-            try {
-                Thread.sleep(5000L);
-            } catch (InterruptedException e) {
-                // Handle interruption
-
-                Thread.currentThread().interrupt();
-            }
+//            try {
+//                Thread.sleep(5000L);
+//            } catch (InterruptedException e) {
+//                // Handle interruption
+//
+//                Thread.currentThread().interrupt();
+//            }
             // simulate circuit breaker
 //            throw new RuntimeException("Simulated failure");
 

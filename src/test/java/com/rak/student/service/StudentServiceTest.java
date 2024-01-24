@@ -9,15 +9,10 @@ import com.rak.student.repository.SchoolRepository;
 import com.rak.student.repository.StudentRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -32,11 +27,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest()
-@AutoConfigureMockMvc(addFilters = false)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class StudentServiceTest {
 
@@ -89,7 +79,6 @@ public class StudentServiceTest {
         expectedDTOs.add(studentDTO1);
         expectedDTOs.add(studentDTO2);
 
-        // Mock the repository
         when(studentRepository.findAll()).thenReturn(students);
 
         when(studentMapper.toDTO(student1)).thenReturn(expectedDTOs.get(0));
@@ -102,7 +91,7 @@ public class StudentServiceTest {
 
     @Test
     public void testGetStudentByIdPositive() {
-        
+
         Long studentId = 1L;
         School school = new School(1L, "Skiply School", new ArrayList<>());
         Student student = new Student(studentId, "John Doe", "G1", "2012", "+92090078601", "Ali", school);
@@ -111,22 +100,23 @@ public class StudentServiceTest {
         when(studentRepository.findById(studentId)).thenReturn(Optional.of(student));
         when(studentMapper.toDTO(student)).thenReturn(expectedDTO);
 
-        
+
         StudentDTO actualDTO = studentService.getStudentById(studentId);
 
-        
+
         assertEquals(expectedDTO, actualDTO);
     }
 
     @Test
     public void testGetStudentById_StudentNotFound() {
-        
+
         Long studentId = 1L;
 
         when(studentRepository.findById(studentId)).thenReturn(Optional.empty());
 
         assertThrows(ResponseStatusException.class, () -> studentService.getStudentById(studentId));
     }
+
     @Test
     public void testGetStudentByIdNegativeCase() {
         Long studentId = 1L;
@@ -138,13 +128,13 @@ public class StudentServiceTest {
 
     @Test
     public void testCreateStudent() {
-        
+
         Long schoolId = 1L;
         School school = new School(schoolId, "Skiply School", new ArrayList<>());
         StudentDTO studentDTO = new StudentDTO(null, "John Doe", "G1", "2012", "+92090078601", schoolId, null, "Ali");
 
         when(studentMapper.toEntity(studentDTO)).thenReturn(new Student());
-        when(schoolService.getSchoolById(schoolId)).thenReturn(new SchoolDTO("Skiply School",schoolId));
+        when(schoolService.getSchoolById(schoolId)).thenReturn(new SchoolDTO("Skiply School", schoolId));
         when(schoolRepository.findById(schoolId)).thenReturn(Optional.of(school));
 
         when(studentRepository.save(any(Student.class))).thenAnswer(invocation -> {
@@ -159,14 +149,14 @@ public class StudentServiceTest {
                     savedStudent.getGuardianName());
         });
 
-        
+
         StudentDTO createdStudent = studentService.createStudent(studentDTO);
         createdStudent.setStudentName(studentDTO.getStudentName());
         createdStudent.setMobileNumber(studentDTO.getMobileNumber());
         createdStudent.setGuardianName(studentDTO.getGuardianName());
         createdStudent.setGrade(studentDTO.getGrade());
 
-        
+
         assertNotNull(createdStudent.getId());
         assertEquals("John Doe", createdStudent.getStudentName());
         assertEquals("G1", createdStudent.getGrade());
@@ -178,7 +168,7 @@ public class StudentServiceTest {
 
     @Test(expected = Exception.class)
     public void testCreateStudentNegative() {
-        
+
         StudentDTO studentDTO = new StudentDTO();
         studentDTO.setSchoolId(1L);
 

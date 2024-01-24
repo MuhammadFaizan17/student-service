@@ -3,10 +3,10 @@ package com.rak.student.repo;
 import com.rak.student.domain.School;
 import com.rak.student.domain.Student;
 import com.rak.student.repository.StudentRepository;
-import com.rak.student.service.StudentService;
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
@@ -21,6 +21,11 @@ import static org.mockito.Mockito.when;
 public class StudentRepoTest {
     @Mock
     private StudentRepository studentRepository;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testFindFirstByRollNumberSuccess() {
@@ -37,7 +42,7 @@ public class StudentRepoTest {
     }
 
     @Test
-   public void testFindFirstByRollNumberNotFound() {
+    public void testFindFirstByRollNumberNotFound() {
         String rollNo = "12345";
         when(studentRepository.findFirstByRollNumber(rollNo)).thenReturn(Optional.empty());
 

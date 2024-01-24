@@ -37,17 +37,17 @@ public class StudentControllerTest {
 
     @Test
     public void testGetAllStudents() {
-        
+
         List<StudentDTO> expectedStudents = new ArrayList<>();
         expectedStudents.add(new StudentDTO(1L, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1"));
         expectedStudents.add(new StudentDTO(2L, "Doe", "G2", "2022", "+92090078602", 2L, "School 2", "Teacher 2"));
 
         when(studentService.getAllStudents()).thenReturn(expectedStudents);
 
-        
+
         ResponseEntity<List<StudentDTO>> responseEntity = studentController.getAllStudents();
 
-        
+
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
         assertEquals(expectedStudents.size(), responseEntity.getBody().size());
@@ -58,16 +58,16 @@ public class StudentControllerTest {
 
     @Test
     public void testGetStudentById() {
-        
+
         Long studentId = 1L;
         StudentDTO expectedStudent = new StudentDTO(studentId, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1");
 
         when(studentService.getStudentById(studentId)).thenReturn(expectedStudent);
 
-        
+
         StudentDTO result = studentController.getStudentById(studentId);
 
-        
+
         assertNotNull(result);
         assertEquals(expectedStudent, result);
 
@@ -76,16 +76,16 @@ public class StudentControllerTest {
 
     @Test
     public void testCreateStudent() {
-        
+
         StudentDTO inputStudent = new StudentDTO(null, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1");
         StudentDTO expectedCreatedStudent = new StudentDTO(1L, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1");
 
         when(studentService.createStudent(inputStudent)).thenReturn(expectedCreatedStudent);
 
-        
+
         ResponseEntity<StudentDTO> response = studentController.createStudent(inputStudent);
 
-        
+
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
@@ -118,7 +118,7 @@ public class StudentControllerTest {
 
     @Test
     public void testUpdateStudentNotFound() {
-        
+
         Long studentId = 1L;
         StudentDTO updatedStudentDTO = new StudentDTO(studentId, "UpdatedName", "G2", "2023", "+92090078602", 1L, "School 1", "Teacher 1");
 
@@ -132,6 +132,7 @@ public class StudentControllerTest {
 
         verify(studentService, times(1)).updateStudent(studentId, updatedStudentDTO);
     }
+
     @Test
     public void testGetStudentByRollNoSuccess() throws InterruptedException, ExecutionException {
         String rollNo = "12345";

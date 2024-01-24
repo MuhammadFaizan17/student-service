@@ -101,7 +101,6 @@ public class SchoolControllerTest {
         assertEquals(schoolId, responseEntity.getBody().getId());
         assertEquals("Updated School", responseEntity.getBody().getName());
 
-        // Verify that the service method was called with the correct arguments
         verify(schoolService, times(1)).updateSchool(eq(schoolId), eq(updatedSchoolDTO));
     }
 

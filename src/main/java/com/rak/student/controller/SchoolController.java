@@ -24,10 +24,6 @@ public class SchoolController {
 
     private final SchoolService schoolService;
 
-    /**
-     * *
-     * @return Schools list
-     */
     @GetMapping
     @Operation(summary = "get list of all schools")
     public ResponseEntity<List<SchoolDTO>> getAllSchools() {
@@ -35,14 +31,11 @@ public class SchoolController {
         return new ResponseEntity<>(schools, HttpStatus.OK);
     }
 
-    /**
-     * @param id
-     * @return
-     */
+
     @GetMapping("/{id}")
     @Operation(summary = "get school by id")
     public ResponseEntity<SchoolDTO> getSchoolById(@PathVariable Long id) {
-       return  new ResponseEntity<>(schoolService.getSchoolById(id), HttpStatus.OK);
+        return new ResponseEntity<>(schoolService.getSchoolById(id), HttpStatus.OK);
     }
 
     @PostMapping

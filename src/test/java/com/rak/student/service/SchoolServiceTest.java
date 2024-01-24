@@ -7,15 +7,10 @@ import com.rak.student.repository.SchoolRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -64,7 +59,7 @@ public class SchoolServiceTest {
         when(schoolMapper.toDTO(school.get(0))).thenReturn(expectedDTOs.get(0));
         when(schoolMapper.toDTO(school.get(1))).thenReturn(expectedDTOs.get(1));
 
-        
+
         List<SchoolDTO> actualDTOs = schoolService.getAllSchools();
 
         assertEquals(expectedDTOs.size(), actualDTOs.size());
@@ -145,7 +140,7 @@ public class SchoolServiceTest {
 
     @Test
     public void updateSchool() {
-        
+
         Long schoolId = 1L;
         SchoolDTO updatedSchoolDTO = new SchoolDTO();
         updatedSchoolDTO.setName("Updated School Name");
@@ -158,10 +153,10 @@ public class SchoolServiceTest {
         when(schoolRepository.findById(schoolId)).thenReturn(Optional.of(existingSchool));
         when(schoolRepository.save(existingSchool)).thenReturn(existingSchool);
 
-        
+
         SchoolDTO result = schoolService.updateSchool(schoolId, updatedSchoolDTO);
 
-        
+
         Assertions.assertEquals(updatedSchoolDTO.getName(), result.getName());
         verify(schoolRepository, times(1)).findById(schoolId);
         verify(schoolRepository, times(1)).save(existingSchool);
@@ -169,7 +164,7 @@ public class SchoolServiceTest {
 
     @Test
     public void updateSchoolNotFound() {
-        
+
         Long schoolId = 1L;
         SchoolDTO updatedSchoolDTO = new SchoolDTO();
         updatedSchoolDTO.setName("Updated School Name");
@@ -186,7 +181,8 @@ public class SchoolServiceTest {
     @Test
     public void testDeleteSchool() {
         Long schoolId = 1L;
-        Mockito.when(schoolRepository.findById(schoolId)).thenReturn(Optional.of(new School(schoolId, "Test School",new ArrayList<>())));
+        Mockito.when(schoolRepository.findById(schoolId))
+                .thenReturn(Optional.of(new School(schoolId, "Test School", new ArrayList<>())));
 
         schoolService.deleteSchool(schoolId);
 

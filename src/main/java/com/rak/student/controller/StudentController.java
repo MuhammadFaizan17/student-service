@@ -39,7 +39,7 @@ public class StudentController {
     }
 
     @PostMapping
-    @Operation(summary = "create student",description = "student grade values are G1 to G10")
+    @Operation(summary = "create student", description = "student grade values are G1 to G10")
     public ResponseEntity<StudentDTO> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
         StudentDTO createdStudent = studentService.createStudent(studentDTO);
         return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
