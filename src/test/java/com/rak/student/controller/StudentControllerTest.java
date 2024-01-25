@@ -35,12 +35,14 @@ public class StudentControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    String imageUrl = "https://play-lh.googleusercontent.com/1h4qUW1ECJ9bd27nDbkvc3uGhwFeFGt0yIGIRBQspXW24uJ0i34ePxMy-EVAXSX9Pg=w600-h300-pc0xffffff-pd";
+
     @Test
     public void testGetAllStudents() {
 
         List<StudentDTO> expectedStudents = new ArrayList<>();
-        expectedStudents.add(new StudentDTO(1L, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1"));
-        expectedStudents.add(new StudentDTO(2L, "Doe", "G2", "2022", "+92090078602", 2L, "School 2", "Teacher 2"));
+        expectedStudents.add(new StudentDTO(1L, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1", imageUrl));
+        expectedStudents.add(new StudentDTO(2L, "Doe", "G2", "2022", "+92090078602", 2L, "School 2", "Teacher 2", imageUrl));
 
         when(studentService.getAllStudents()).thenReturn(expectedStudents);
 
@@ -60,7 +62,7 @@ public class StudentControllerTest {
     public void testGetStudentById() {
 
         Long studentId = 1L;
-        StudentDTO expectedStudent = new StudentDTO(studentId, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1");
+        StudentDTO expectedStudent = new StudentDTO(studentId, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1", imageUrl);
 
         when(studentService.getStudentById(studentId)).thenReturn(expectedStudent);
 
@@ -77,8 +79,8 @@ public class StudentControllerTest {
     @Test
     public void testCreateStudent() {
 
-        StudentDTO inputStudent = new StudentDTO(null, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1");
-        StudentDTO expectedCreatedStudent = new StudentDTO(1L, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1");
+        StudentDTO inputStudent = new StudentDTO(null, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1", imageUrl);
+        StudentDTO expectedCreatedStudent = new StudentDTO(1L, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1", imageUrl);
 
         when(studentService.createStudent(inputStudent)).thenReturn(expectedCreatedStudent);
 
@@ -99,8 +101,8 @@ public class StudentControllerTest {
     @Test
     public void testUpdateStudentSuccess() {
         Long studentId = 1L;
-        StudentDTO updatedStudentDTO = new StudentDTO(studentId, "UpdatedName", "G2", "2023", "+92090078602", 1L, "School 1", "Teacher 1");
-        StudentDTO expectedUpdatedStudent = new StudentDTO(studentId, "UpdatedName", "G2", "2023", "+92090078602", 1L, "School 1", "Teacher 1");
+        StudentDTO updatedStudentDTO = new StudentDTO(studentId, "UpdatedName", "G2", "2023", "+92090078602", 1L, "School 1", "Teacher 1", imageUrl);
+        StudentDTO expectedUpdatedStudent = new StudentDTO(studentId, "UpdatedName", "G2", "2023", "+92090078602", 1L, "School 1", "Teacher 1", imageUrl);
 
         when(studentService.updateStudent(studentId, updatedStudentDTO)).thenReturn(expectedUpdatedStudent);
 
@@ -120,7 +122,7 @@ public class StudentControllerTest {
     public void testUpdateStudentNotFound() {
 
         Long studentId = 1L;
-        StudentDTO updatedStudentDTO = new StudentDTO(studentId, "UpdatedName", "G2", "2023", "+92090078602", 1L, "School 1", "Teacher 1");
+        StudentDTO updatedStudentDTO = new StudentDTO(studentId, "UpdatedName", "G2", "2023", "+92090078602", 1L, "School 1", "Teacher 1", imageUrl);
 
         when(studentService.updateStudent(studentId, updatedStudentDTO)).thenReturn(null);
 
@@ -136,7 +138,7 @@ public class StudentControllerTest {
     @Test
     public void testGetStudentByRollNoSuccess() throws InterruptedException, ExecutionException {
         String rollNo = "12345";
-        StudentDTO expectedStudent = new StudentDTO(1L, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1");
+        StudentDTO expectedStudent = new StudentDTO(1L, "John", "G1", "2022", "+92090078601", 1L, "School 1", "Teacher 1", imageUrl);
 
         when(studentService.getStudentByRollNo(rollNo)).thenReturn(CompletableFuture.completedFuture(expectedStudent));
 

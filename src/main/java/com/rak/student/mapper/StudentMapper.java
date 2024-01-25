@@ -10,6 +10,7 @@ public interface StudentMapper {
 
     @Mapping(target = "schoolId", source = "school.id")
     @Mapping(target = "schoolName", source = "school.name")
+    @Mapping(target = "schoolLogoUrl", source = "school.logoUrl")
     StudentDTO toDTO(Student student);
 
     @Mapping(target = "school.id", source = "schoolId")

@@ -30,6 +30,9 @@ public class SchoolControllerTest {
     @Mock
     private SchoolService schoolService;
 
+    String imageUrl = "https://play-lh.googleusercontent.com/1h4qUW1ECJ9bd27nDbkvc3uGhwFeFGt0yIGIRBQspXW24uJ0i34ePxMy-EVAXSX9Pg=w600-h300-pc0xffffff-pd";
+
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -38,12 +41,12 @@ public class SchoolControllerTest {
     @Test
     public void testGetAllSchools() {
         List<School> schools = new ArrayList<>();
-        schools.add(new School(1L, "Skiply", new ArrayList<>()));
-        schools.add(new School(2L, "American Lyceum", new ArrayList<>()));
+        schools.add(new School(1L, "Skiply", new ArrayList<>(), imageUrl));
+        schools.add(new School(2L, "American Lyceum", new ArrayList<>(), imageUrl));
         List<SchoolDTO> expectedDTOs = new ArrayList<>();
-        expectedDTOs.add(new SchoolDTO("Skiply", 1L));
+        expectedDTOs.add(new SchoolDTO("Skiply", 1L, imageUrl));
 
-        expectedDTOs.add(new SchoolDTO("American School", 2L));
+        expectedDTOs.add(new SchoolDTO("American School", 2L, imageUrl));
 
         when(schoolService.getAllSchools()).thenReturn(expectedDTOs);
 
@@ -60,7 +63,7 @@ public class SchoolControllerTest {
     @Test
     public void testGetSchoolById() {
         Long schoolId = 1L;
-        SchoolDTO school = new SchoolDTO("Skiply", schoolId);
+        SchoolDTO school = new SchoolDTO("Skiply", schoolId, imageUrl);
 
         when(schoolService.getSchoolById(schoolId)).thenReturn(school);
 
@@ -72,8 +75,8 @@ public class SchoolControllerTest {
 
     @Test
     public void testCreateSchool() {
-        SchoolDTO schoolDTO = new SchoolDTO("Skiply", 1L);
-        SchoolDTO createdSchoolDTO = new SchoolDTO("Skiply", 1L);
+        SchoolDTO schoolDTO = new SchoolDTO("Skiply", 1L, imageUrl);
+        SchoolDTO createdSchoolDTO = new SchoolDTO("Skiply", 1L, imageUrl);
 
         when(schoolService.createSchool(any())).thenReturn(createdSchoolDTO);
 
@@ -89,8 +92,8 @@ public class SchoolControllerTest {
     @Test
     public void testUpdateSchoolSuccess() {
         Long schoolId = 1L;
-        SchoolDTO updatedSchoolDTO = new SchoolDTO("Updated School", schoolId);
-        SchoolDTO updatedSchool = new SchoolDTO("Updated School", schoolId);
+        SchoolDTO updatedSchoolDTO = new SchoolDTO("Updated School", schoolId, imageUrl);
+        SchoolDTO updatedSchool = new SchoolDTO("Updated School", schoolId, imageUrl);
 
         when(schoolService.updateSchool(eq(schoolId), any())).thenReturn(updatedSchool);
 
@@ -107,7 +110,7 @@ public class SchoolControllerTest {
     @Test
     public void testUpdateSchoolNotFound() {
         Long schoolId = 1L;
-        SchoolDTO updatedSchoolDTO = new SchoolDTO("Updated School", schoolId);
+        SchoolDTO updatedSchoolDTO = new SchoolDTO("Updated School", schoolId, imageUrl);
 
         when(schoolService.updateSchool(eq(schoolId), any())).thenReturn(null);
 

@@ -37,6 +37,7 @@ public class SchoolServiceTest {
     @Mock
     private SchoolMapper schoolMapper;
 
+    String imageUrl = "https://play-lh.googleusercontent.com/1h4qUW1ECJ9bd27nDbkvc3uGhwFeFGt0yIGIRBQspXW24uJ0i34ePxMy-EVAXSX9Pg=w600-h300-pc0xffffff-pd";
 
     @Before
     public void setup() {
@@ -47,12 +48,12 @@ public class SchoolServiceTest {
     public void getAllSchools() {
 
         List<School> school = new ArrayList<>();
-        school.add(new School(1L, "SKIPLY", new ArrayList<>()));
-        school.add(new School(2L, "American Lyceum", new ArrayList<>()));
+        school.add(new School(1L, "SKIPLY", new ArrayList<>(), imageUrl));
+        school.add(new School(2L, "American Lyceum", new ArrayList<>(), imageUrl));
         List<SchoolDTO> expectedDTOs = new ArrayList<>();
-        expectedDTOs.add(new SchoolDTO("Skiply", 1L));
+        expectedDTOs.add(new SchoolDTO("Skiply", 1L, imageUrl));
 
-        expectedDTOs.add(new SchoolDTO("American School", 2L));
+        expectedDTOs.add(new SchoolDTO("American School", 2L, imageUrl));
 
         when(schoolRepository.findAll()).thenReturn(school);
 
@@ -85,8 +86,8 @@ public class SchoolServiceTest {
     @Test
     public void getSchoolById() {
         Long schoolId = 1L;
-        School school = new School(1L, "SKIPLY", new ArrayList<>());
-        SchoolDTO expectedDto = new SchoolDTO("SKIPLY", 1L);
+        School school = new School(1L, "SKIPLY", new ArrayList<>(), imageUrl);
+        SchoolDTO expectedDto = new SchoolDTO("SKIPLY", 1L, imageUrl);
 
         when(schoolRepository.findById(schoolId)).thenReturn(Optional.of(school));
         when(schoolMapper.toDTO(school)).thenReturn(expectedDto);
@@ -182,7 +183,7 @@ public class SchoolServiceTest {
     public void testDeleteSchool() {
         Long schoolId = 1L;
         Mockito.when(schoolRepository.findById(schoolId))
-                .thenReturn(Optional.of(new School(schoolId, "Test School", new ArrayList<>())));
+                .thenReturn(Optional.of(new School(schoolId, "Test School", new ArrayList<>(), imageUrl)));
 
         schoolService.deleteSchool(schoolId);
 

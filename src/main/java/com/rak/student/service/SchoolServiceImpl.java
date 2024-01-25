@@ -70,6 +70,7 @@ public class SchoolServiceImpl implements SchoolService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "School not found with id:" + schoolId));
 
         existingSchool.setName(updatedSchoolDTO.getName());
+        existingSchool.setLogoUrl(updatedSchoolDTO.getLogoUrl());
 
         School updatedSchool = schoolRepository.save(existingSchool);
         return mapper.toDTO(updatedSchool);

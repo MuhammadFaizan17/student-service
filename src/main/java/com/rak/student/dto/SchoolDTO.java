@@ -23,5 +23,7 @@ public class SchoolDTO implements Serializable {
     @JsonProperty("schoolId")
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
+
+    private String logoUrl;
 }
 

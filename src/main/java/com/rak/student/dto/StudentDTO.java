@@ -47,6 +47,9 @@ public class StudentDTO implements Serializable {
     @NotBlank(message = "guardianName is mandatory")
     private String guardianName;
 
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    private String schoolLogoUrl;
+
     public void setGrade(String grade) {
         if (!Grade.isValid(grade))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid grade value must be like G1 to G10");

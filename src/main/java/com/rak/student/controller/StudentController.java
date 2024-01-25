@@ -55,7 +55,7 @@ public class StudentController {
     }
 
     @GetMapping("rollNo/{rollNo}")
-    @Operation(summary = "get student by id")
+    @Operation(summary = "get student by rollNo")
     public CompletableFuture<StudentDTO> getStudentByRollNo(@PathVariable String rollNo) throws InterruptedException {
         return studentService.getStudentByRollNo(rollNo);
     }

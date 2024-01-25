@@ -31,4 +31,8 @@ public class School {
 
     @OneToMany(mappedBy = "school")
     private List<Student> students;
+
+    @Column
+    private String logoUrl;
+
 }
