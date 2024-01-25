@@ -14,16 +14,41 @@ This Spring Boot application serves as a comprehensive management system for stu
 
 
 ## Features
+### Register School
 
-### Student CRUD Operations
+- **Endpoint:** `POST /schools`
+- **Description:** Register a new school by providing essential details such as school name, address, and other relevant information.
 
-- Create, Read, Update, and Delete operations for student entities.
-- Seamless integration with the H2 database for persistent storage.
+### Update School Data
 
-### School CRUD Operations
+- **Endpoint:** `PUT /schools/{schoolId}`
+- **Description:** Update the information of an existing school identified by its unique school ID. Modify details such as school name, address, or any other relevant data.
 
-- Create, Read, Update, and Delete operations for school entities.
-- Efficient management of school-related data.
+### Get All Schools
+
+- **Endpoint:** `GET /schools`
+- **Description:** Retrieve a list of all registered schools, including key information for each school.
+
+### Get School by ID
+
+- **Endpoint:** `GET /schools/{schoolId}`
+- **Description:** Retrieve detailed information about a specific school using its unique school ID. This includes details such as school name, address, and other relevant data.
+
+### Register Student
+
+- **Endpoint:** `POST /students`
+- **Description:** Register a new student by providing necessary details such as name, roll number, and other relevant information.
+
+### Update Student Data
+
+- **Endpoint:** `PUT /students/{studentId}`
+- **Description:** Update the information of an existing student identified by their unique student ID. Modify details such as name, mobileNumber, or any other relevant data.
+
+### Get Student Data
+
+- **Endpoint:** `GET /students/{studentId}`
+- **Description:** Retrieve detailed information about a specific student using their unique student ID. This includes details such as name, roll number, and other relevant data.
+
 
 ### Spring Boot Actuator
 
@@ -70,3 +95,6 @@ To get started with the project, follow these steps:
 
    ```bash
    java -jar student-0.0.1-SNAPSHOT.jar
+
+4. Access Swagger:
+   http://localhost:8081/student-service/swagger-ui/index.html#/
