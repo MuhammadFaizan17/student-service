@@ -35,4 +35,7 @@ public class School {
     @Column
     private String logoUrl;
 
+    @Column(nullable = false)
+    private String address;
+
 }

@@ -46,6 +46,7 @@ public class StudentServiceTest {
     private SchoolServiceImpl schoolService;
 
     String imageUrl = "https://play-lh.googleusercontent.com/1h4qUW1ECJ9bd27nDbkvc3uGhwFeFGt0yIGIRBQspXW24uJ0i34ePxMy-EVAXSX9Pg=w600-h300-pc0xffffff-pd";
+    String address="Sikply near RAK Bank, Dubai";
 
 
     @Before
@@ -65,8 +66,8 @@ public class StudentServiceTest {
     public void testGetAllStudents() {
         List<Student> students = new ArrayList<>();
 
-        School school1 = new School(1L, "Skiply", new ArrayList<>(), imageUrl);
-        School school2 = new School(2L, "American School", new ArrayList<>(), imageUrl);
+        School school1 = new School(1L, "Skiply", new ArrayList<>(), imageUrl,address);
+        School school2 = new School(2L, "American School", new ArrayList<>(), imageUrl,address);
 
         Student student1 = new Student(1L, "John", "G1", "2012", "+92090078601", "Ali", school1);
         Student student2 = new Student(2L, "Doe", "G2", "2013", "+92090078602", "Sheikh", school2);
@@ -95,7 +96,7 @@ public class StudentServiceTest {
     public void testGetStudentByIdPositive() {
 
         Long studentId = 1L;
-        School school = new School(1L, "Skiply School", new ArrayList<>(), imageUrl);
+        School school = new School(1L, "Skiply School", new ArrayList<>(), imageUrl,address);
         Student student = new Student(studentId, "John Doe", "G1", "2012", "+92090078601", "Ali", school);
         StudentDTO expectedDTO = new StudentDTO(studentId, "John Doe", "G1", "2012", "+92090078601", 1L, "Skiply School", "Ali", imageUrl);
 
@@ -132,11 +133,11 @@ public class StudentServiceTest {
     public void testCreateStudent() {
 
         Long schoolId = 1L;
-        School school = new School(schoolId, "Skiply School", new ArrayList<>(), imageUrl);
+        School school = new School(schoolId, "Skiply School", new ArrayList<>(), imageUrl,address);
         StudentDTO studentDTO = new StudentDTO(null, "John Doe", "G1", "2012", "+92090078601", schoolId, null, "Ali", imageUrl);
 
         when(studentMapper.toEntity(studentDTO)).thenReturn(new Student());
-        when(schoolService.getSchoolById(schoolId)).thenReturn(new SchoolDTO("Skiply School", schoolId, imageUrl));
+        when(schoolService.getSchoolById(schoolId)).thenReturn(new SchoolDTO("Skiply School", schoolId, imageUrl,address));
         when(schoolRepository.findById(schoolId)).thenReturn(Optional.of(school));
 
         when(studentRepository.save(any(Student.class))).thenAnswer(invocation -> {
