@@ -71,6 +71,7 @@ public class SchoolServiceImpl implements SchoolService {
 
         existingSchool.setName(updatedSchoolDTO.getName());
         existingSchool.setLogoUrl(updatedSchoolDTO.getLogoUrl());
+        existingSchool.setAddress(updatedSchoolDTO.getAddress());
 
         School updatedSchool = schoolRepository.save(existingSchool);
         return mapper.toDTO(updatedSchool);

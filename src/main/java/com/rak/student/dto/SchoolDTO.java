@@ -25,5 +25,8 @@ public class SchoolDTO implements Serializable {
     private Long id;
 
     private String logoUrl;
+
+    private String address;
+
 }
 
