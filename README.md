@@ -59,7 +59,7 @@ To get started with the project, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/student-school-management.git
+   git clone https://github.com/MuhammadFaizan17/student-service.git
 
 2. Build Application:
 
