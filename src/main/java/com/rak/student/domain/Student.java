@@ -43,5 +43,4 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "schoolId", nullable = false)
     private School school;
-
 }
